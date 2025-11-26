@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>形容詞と動詞の組み合わせ練習</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            color: #4a6fa5;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .description {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .panel h2 {
+            color: #4a6fa5;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+            font-size: 1.3rem;
+        }
+        
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .word-item {
+            background-color: #f1f5f9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .word-item:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-2px);
+        }
+        
+        .word-item.selected {
+            background-color: #4a6fa5;
+            color: white;
+            border-color: #3a5a8a;
+        }
+        
+        .adjective-na {
+            background-color: #f0f9ff;
+            border-left: 3px solid #7dd3fc;
+        }
+        
+        .adjective-i {
+            background-color: #f0fdf4;
+            border-left: 3px solid #86efac;
+        }
+        
+        .result-area {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+        
+        .result-area h2 {
+            color: #4a6fa5;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .combination {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #4a6fa5;
+        }
+        
+        .combination .adjective {
+            font-weight: bold;
+            color: #4a6fa5;
+        }
+        
+        .combination .verb {
+            font-weight: bold;
+            color: #059669;
+        }
+        
+        .meaning {
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .example {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f5f9;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        #combineBtn {
+            background-color: #4a6fa5;
+            color: white;
+        }
+        
+        #combineBtn:hover {
+            background-color: #3a5a8a;
+        }
+        
+        #resetBtn {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        #resetBtn:hover {
+            background-color: #cbd5e0;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>形容詞と動詞の組み合わせ練習</h1>
+            <p class="description">左側の形容詞・形容動詞を選び、右側の動詞を選んで組み合わせてみましょう。<br>
+            イ形容詞は「～く」、ナ形容詞は「～に」の形で動詞と組み合わせます。</p>
+        </header>
+        
+        <div class="content">
+            <div class="panel">
+                <h2>形容詞・形容動詞</h2>
+                <div class="word-list" id="adjectivesList">
+                    <!-- 形容词和形容动词将通过JavaScript动态添加 -->
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2>動詞（ます形）</h2>
+                <div class="word-list" id="verbsList">
+                    <!-- 动词将通过JavaScript动态添加 -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button id="combineBtn">組み合わせを作成</button>
+            <button id="resetBtn">リセット</button>
+        </div>
+        
+        <div class="result-area">
+            <h2>作成した組み合わせ</h2>
+            <div id="combinationsContainer">
+                <!-- 组合结果将通过JavaScript动态添加 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 形容词和形容动词数据
+        const adjectives = [
+            { word: "上手", type: "na", meaning: "擅长" },
+            { word: "熱心", type: "na", meaning: "热心" },
+            { word: "元気", type: "na", meaning: "精神" },
+            { word: "静か", type: "na", meaning: "安静" },
+            { word: "きれい", type: "na", meaning: "干净/漂亮" },
+            { word: "便利", type: "na", meaning: "方便" },
+            { word: "簡単", type: "na", meaning: "简单" },
+            { word: "親切", type: "na", meaning: "亲切" },
+            { word: "大切", type: "na", meaning: "重要" },
+            { word: "得意", type: "na", meaning: "拿手" },
+            { word: "熱い", type: "i", meaning: "热" },
+            { word: "早い", type: "i", meaning: "早/快" },
+            { word: "美味しい", type: "i", meaning: "美味" },
+            { word: "楽しい", type: "i", meaning: "快乐" },
+            { word: "難しい", type: "i", meaning: "困难" },
+            { word: "優しい", type: "i", meaning: "温柔" },
+            { word: "明るい", type: "i", meaning: "明亮" },
+            { word: "新しい", type: "i", meaning: "新" },
+            { word: "忙しい", type: "i", meaning: "忙碌" },
+            { word: "寒い", type: "i", meaning: "寒冷" }
+        ];
+
+        // 动词数据
+        const verbs = [
+            { word: "使います", meaning: "使用" },
+            { word: "勉強します", meaning: "学习" },
+            { word: "話します", meaning: "说话" },
+            { word: "書きます", meaning: "写" },
+            { word: "読みます", meaning: "读" },
+            { word: "聞きます", meaning: "听" },
+            { word: "見ます", meaning: "看" },
+            { word: "作ります", meaning: "制作" },
+            { word: "食べます", meaning: "吃" },
+            { word: "飲みます", meaning: "喝" },
+            { word: "行きます", meaning: "去" },
+            { word: "来ます", meaning: "来" },
+            { word: "泳ぎます", meaning: "游泳" },
+            { word: "歌います", meaning: "唱歌" },
+            { word: "踊ります", meaning: "跳舞" },
+            { word: "働きます", meaning: "工作" },
+            { word: "遊びます", meaning: "玩耍" },
+            { word: "寝ます", meaning: "睡觉" },
+            { word: "起きます", meaning: "起床" },
+            { word: "帰ります", meaning: "回去" }
+        ];
+
+        // 示例组合
+        const exampleCombinations = [
+            { adjective: "上手", verb: "使います", example: "彼はコンピューターを上手に使います。" },
+            { adjective: "熱心", verb: "勉強します", example: "学生たちは熱心に勉強します。" },
+            { adjective: "早い", verb: "起きます", example: "私は毎朝早く起きます。" },
+            { adjective: "美味しい", verb: "食べます", example: "この料理を美味しく食べました。" },
+            { adjective: "静か", verb: "話します", example: "図書館では静かに話しましょう。" }
+        ];
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const adjectivesList = document.getElementById('adjectivesList');
+            const verbsList = document.getElementById('verbsList');
+            const combineBtn = document.getElementById('combineBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const combinationsContainer = document.getElementById('combinationsContainer');
+
+            // 添加形容词和形容动词到页面
+            adjectives.forEach(adj => {
+                const adjElement = document.createElement('div');
+                adjElement.className = `word-item adjective-${adj.type}`;
+                adjElement.textContent = adj.word;
+                adjElement.dataset.word = adj.word;
+                adjElement.dataset.type = adj.type;
+                adjElement.dataset.meaning = adj.meaning;
+                adjectivesList.appendChild(adjElement);
+            });
+
+            // 添加动词到页面
+            verbs.forEach(verb => {
+                const verbElement = document.createElement('div');
+                verbElement.className = 'word-item';
+                verbElement.textContent = verb.word;
+                verbElement.dataset.word = verb.word;
+                verbElement.dataset.meaning = verb.meaning;
+                verbsList.appendChild(verbElement);
+            });
+
+            // 添加示例组合
+            exampleCombinations.forEach(combo => {
+                const combination = document.createElement('div');
+                combination.className = 'combination';
+                
+                const adj = adjectives.find(a => a.word === combo.adjective);
+                const verb = verbs.find(v => v.word === combo.verb);
+                
+                combination.innerHTML = `
+                    <div>
+                        <span class="adjective">${adj.word}${adj.type === 'na' ? 'に' : 'く'}</span>
+                        <span class="verb">${verb.word}</span>
+                        <div class="meaning">${adj.meaning}地${verb.meaning}</div>
+                        <div class="example">例: ${combo.example}</div>
+                    </div>
+                `;
+                
+                combinationsContainer.appendChild(combination);
+            });
+
+            // 选择单词功能
+            let selectedAdjective = null;
+            let selectedVerb = null;
+
+            // 形容词点击事件
+            document.querySelectorAll('#adjectivesList .word-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#adjectivesList .word-item').forEach(i => {
+                        i.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedAdjective = {
+                        word: this.dataset.word,
+                        type: this.dataset.type,
+                        meaning: this.dataset.meaning
+                    };
+                });
+            });
+
+            // 动词点击事件
+            document.querySelectorAll('#verbsList .word-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#verbsList .word-item').forEach(i => {
+                        i.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedVerb = {
+                        word: this.dataset.word,
+                        meaning: this.dataset.meaning
+                    };
+                });
+            });
+
+            // 组合按钮点击事件
+            combineBtn.addEventListener('click', function() {
+                if (!selectedAdjective || !selectedVerb) {
+                    alert('形容詞と動詞を選んでください。');
+                    return;
+                }
+
+                // 创建新的组合
+                const combination = document.createElement('div');
+                combination.className = 'combination';
+                
+                combination.innerHTML = `
+                    <div>
+                        <span class="adjective">${selectedAdjective.word}${selectedAdjective.type === 'na' ? 'に' : 'く'}</span>
+                        <span class="verb">${selectedVerb.word}</span>
+                        <div class="meaning">${selectedAdjective.meaning}地${selectedVerb.meaning}</div>
+                    </div>
+                `;
+                
+                combinationsContainer.prepend(combination);
+                
+                // 重置选择
+                document.querySelectorAll('.word-item.selected').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                selectedAdjective = null;
+                selectedVerb = null;
+            });
+
+            // 重置按钮点击事件
+            resetBtn.addEventListener('click', function() {
+                document.querySelectorAll('.word-item.selected').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                selectedAdjective = null;
+                selectedVerb = null;
+            });
+        });
+    </script>
+</body>
+</html>
